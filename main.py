@@ -1,5 +1,4 @@
 import streamlit as st
-from itables.streamlit import interactive_table
 import pandas as pd
 import requests
 from datetime import datetime, timedelta
@@ -20,6 +19,14 @@ data = response.json()
 prices_today = [(entry['valid_from'], entry['value_inc_vat']) for entry in data['results']]
 df = pd.DataFrame(prices_today, columns=["Time", "Price (p/kWh)"])
 
-# Display the interactive table
+# Function to highlight prices lower than 20p in green
+def highlight_low_prices(val):
+    color = 'green' if val < 20 else ''
+    return f'background-color: {color}'
+
+# Apply the styling
+styled_df = df.style.applymap(highlight_low_prices, subset=['Price (p/kWh)'])
+
+# Display the styled dataframe
 st.title("Today's Agile Tariff Prices")
-interactive_table(df)
+st.dataframe(styled_df)
