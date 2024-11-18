@@ -29,4 +29,4 @@ styled_df = df.style.applymap(highlight_low_prices, subset=['Price (p/kWh)'])
 
 # Display the styled dataframe
 st.title("Today's Agile Tariff Prices")
-st.dataframe(styled_df, use_container_width=True)
+st.dataframe(styled_df, use_container_width=True, hide_index = True)
